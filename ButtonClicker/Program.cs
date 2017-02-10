@@ -13,6 +13,7 @@ namespace ButtonClicker
 
         private static InputPort button;
         private static OutputPort led;
+        private static bool oldButton;
 
 
         public static void Setup()
@@ -27,13 +28,11 @@ namespace ButtonClicker
                 (Cpu.Pin)FEZ_Pin.Digital.LED,
                 false);
 
-
+            oldButton = false;
         }
 
         public static void Loop()
         {
-            bool oldButton = false;
-
             // Nolasīt kājas stāvokli : -true, high, false -> low Kad LDR poga ir nospiesta (jo ir pull-up mode),
             // tā savieno LDR kāju ar zemi, iestatot to uz low. 
             bool buttonPressed = !button.Read();
@@ -44,7 +43,6 @@ namespace ButtonClicker
                 Debug.Print("Button Toggled");
             }
             Thread.Sleep(100);
-            Debug.Print("buttonPressed: " + buttonPressed);
             oldButton = buttonPressed;
         }
 
